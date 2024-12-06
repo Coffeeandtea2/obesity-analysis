@@ -17,10 +17,7 @@ try:
 except requests.exceptions.RequestException as e:
     st.error(f"Failed to fetch data from server: {e}")
     st.stop()
-
-# User interface
-st.title("Obesity Data Analysis Dashboard")
-
+    
 # User interface
 st.title("Obesity Data Dashboard")
 # Limit the selection to Height, Age, and Weight columns
