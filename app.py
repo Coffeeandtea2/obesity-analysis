@@ -6,7 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # FastAPI server URL
-BASE_URL = "https://smart-keys-lead.loca.lt"
+BASE_URL = "https://busy-pears-type.loca.lt"
 
 # Fetch dataset from FastAPI
 try:
