@@ -1,12 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import pandas as pd
-
 app = FastAPI()
-
 # Load and preprocess the data
 file_path = "obesity_data.csv"
-
 try:
     df = pd.read_csv(file_path)
     df_cleaned = df.dropna()
@@ -21,11 +18,9 @@ except FileNotFoundError:
     raise HTTPException(status_code=500, detail="File not found: obesity_data.csv")
 except Exception as e:
     raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
-
 # Request model
 class StatisticsRequest(BaseModel):
     column: str
-
 @app.get("/data")
 def get_data():
     """
@@ -34,8 +29,6 @@ def get_data():
     # Ensure the column is added
     df_cleaned['Age_Group_30'] = df_cleaned['Age'].apply(lambda age: "Under 30" if age < 30 else "30 and Above")
     return df_cleaned.to_dict(orient="records")
-
-
 @app.post("/statistics")
 def post_statistics(request: StatisticsRequest):
     """
@@ -44,7 +37,6 @@ def post_statistics(request: StatisticsRequest):
     column = request.column
     if column not in ["Height", "Age", "Weight"]:
         raise HTTPException(status_code=404, detail=f"Column '{column}' not found or not allowed")
-
     try:
         stats = {
             "mean": float(df_cleaned[column].mean()),  # Ensure JSON serializable
@@ -54,4 +46,3 @@ def post_statistics(request: StatisticsRequest):
         return stats
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error calculating statistics: {str(e)}")
-
