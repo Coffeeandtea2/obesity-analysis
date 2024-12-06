@@ -26,18 +26,6 @@ except Exception as e:
 class StatisticsRequest(BaseModel):
     column: str
 
-@app.get("/")
-def read_root():
-    return {"message": "FastAPI backend is working!"}
-
-# Endpoint to launch Streamlit
-@app.get("/streamlit")
-def launch_streamlit():
-    """Run the Streamlit app."""
-    streamlit_script = "app.py"  # Your Streamlit script
-    streamlit.web.bootstrap.run(streamlit_script, "", [], {})
-    return {"message": "Streamlit is running!"}
-
 @app.get("/data")
 def get_data():
     """
