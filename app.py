@@ -5,8 +5,10 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# FastAPI server URL
-BASE_URL = "http://34.173.46.220:9000"
+import os
+BASE_URL = os.getenv("FASTAPI_BASE_URL", "http://34.173.46.220:9000")
+export FASTAPI_BASE_URL="http://34.173.46.220:9000"
+
 
 # Fetch dataset from FastAPI
 try:
