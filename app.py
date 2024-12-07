@@ -1,4 +1,3 @@
-
 import requests
 import streamlit as st
 import pandas as pd
@@ -7,6 +6,9 @@ import matplotlib.pyplot as plt
 
 # FastAPI server URL
 BASE_URL = "http://34.173.46.220:9000"
+
+# Initialize data variable
+data = None
 
 # Fetch dataset from FastAPI
 try:
@@ -17,7 +19,12 @@ try:
 except requests.exceptions.RequestException as e:
     st.error(f"Failed to fetch data from server: {e}")
     st.stop()
-    
+
+# Validate that `data` is not empty
+if data is None or data.empty:
+    st.error("The dataset is empty or not loaded properly.")
+    st.stop()
+
 # User interface
 st.title("Obesity Data Dashboard")
 # Limit the selection to Height, Age, and Weight columns
@@ -85,18 +92,20 @@ st.caption("This histogram visualizes the distribution of age within the dataset
 
 # Visualization: Box Plot by Age Group (Under 30 vs. 30 and Above)
 st.subheader("Box Plot of Weight by Age Group (Under 30 vs. 30 and Above)")
-plt.figure(figsize=(8, 5))
-sns.boxplot(x="Age_Group_30", y="Weight", data=data)
-plt.title("Box Plot of Weight by Age Group (Under 30 vs. 30 and Above)")
-plt.xlabel("Age Group")
-plt.ylabel("Weight")
-st.pyplot(plt)
-st.caption("For Age 30 and Below:Median weight is higher compared to the older group. There is less variability in weight, with fewer outliers at the higher end.")
-st.caption("For Age Above 30::The median weight is slightly lower. The spread of weights is wider, with more outliers on both ends, especially at the higher range.")
+if "Age_Group_30" not in data.columns:
+    st.error("The dataset does not contain the column 'Age_Group_30'. Please check the data preprocessing step.")
+else:
+    plt.figure(figsize=(8, 5))
+    sns.boxplot(x="Age_Group_30", y="Weight", data=data)
+    plt.title("Box Plot of Weight by Age Group (Under 30 vs. 30 and Above)")
+    plt.xlabel("Age Group")
+    plt.ylabel("Weight")
+    st.pyplot(plt)
+    st.caption("For Age 30 and Below:Median weight is higher compared to the older group. There is less variability in weight, with fewer outliers at the higher end.")
+    st.caption("For Age Above 30::The median weight is slightly lower. The spread of weights is wider, with more outliers on both ends, especially at the higher range.")
 
 # Visualization 5: Regression Plot (Height vs. Weight)
 st.subheader("Linear Relationship of Height vs. Weight")
-st.caption("My Hypothesis: People with higher height are generally heavier.")
 sns.lmplot(x="Height", y="Weight", data=data, ci=None)
 plt.title("Height vs. Weight Linear Relationship")
 st.pyplot(plt)
