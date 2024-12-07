@@ -6,7 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # FastAPI server URL
-BASE_URL = "http://127.0.0.1:9000"
+BASE_URL = "https://obesity-data-dashboard.onrender.com"
 
 # Fetch dataset from FastAPI
 try:
