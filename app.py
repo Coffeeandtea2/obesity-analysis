@@ -6,7 +6,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # FastAPI server URL
-BASE_URL = "https://2e5d-37-19-205-236.ngrok-free.app"
+BASE_URL = "https://9d63-176-53-212-118.ngrok-free.app"
 
 # Fetch dataset from FastAPI
 try:
